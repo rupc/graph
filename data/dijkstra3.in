@@ -1,0 +1,16 @@
+# dijkstra data from easy learning algorithm, page 305
+# |V| = 8, |E| = 14
+1 2 8
+1 3 9
+1 4 11
+2 5 10
+3 2 6
+3 4 3
+3 5 1
+4 6 8
+4 7 8
+5 8 2
+6 3 12
+6 8 5
+7 6 7
+8 7 4

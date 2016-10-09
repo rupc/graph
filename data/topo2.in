@@ -1,0 +1,11 @@
+# topo test data(dag) from clrs page 626
+1 4 1
+4 7 1
+1 5 1
+4 5 1
+2 5 1
+6 7 1
+6 8 1
+8 9 1
+7 9 1
+3
