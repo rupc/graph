@@ -1,6 +1,7 @@
-bin/
-obj/
+bin/*
+obj/*
 tags
 *.o
 *.swp
 *.swa
+.depend
