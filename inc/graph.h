@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2017 Yongrae, Jo <memex@postech.ac.kr>
+ * Author: Yongrae, Jo <memex@postech.ac.kr>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+
 #ifndef GRAPH_H
 #define GRAPH_H
 // input, output 
@@ -22,12 +45,15 @@
 #include <cmath>
 #include <cstdlib>
 #include <climits>
+
 #define COLOR_WHITE 0x01 // for unexplored node
 #define COLOR_GRAY  0x02 // for exploring node.
 #define COLOR_BLACK 0x03 // for explored node
 #define DIST_INF 999999999
 #define EDGE_WEIGHT_DEFAULT 1
+
 using namespace std;
+
 struct gNode {
     // Followed property is dynamic
     // need to be initialze for graph traverse
@@ -57,6 +83,7 @@ struct gNode {
     }
     void print(ostream &out);
 };
+
 struct gEdge {
     int src;
     int dst;
@@ -67,6 +94,7 @@ struct gEdge {
     gEdge(int s, int d)
         : src(s), dst(d), weight(EDGE_WEIGHT_DEFAULT) {}
 };
+
 bool act_on_node(gNode * v);
 typedef gNode NodeType;
 typedef gEdge EdgeType;
@@ -187,6 +215,7 @@ class AdjGraph {
         // aux function
         inline void relax_distance(int u, int v, int w);
         inline void relax_distance(int u, int v, int w, FakeHeap &heap);
+
         //inline void relax_distance(int u, int v, int w, Heap &heap);
         // pretty print function
         void print(std::ostream &pout);

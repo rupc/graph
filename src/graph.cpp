@@ -1,4 +1,5 @@
 #include "graph.h"
+
 // if adj list is initialized,
 // and want to represent graph as matrix 
 // for algorithm like a floyd warshall(matrix more suitable)
@@ -17,6 +18,7 @@ void AdjGraph::init_matrix() {
             EDGE_WEIGHT(e);
     }
 }
+
 void init_romania(std::istream &pin, AdjGraph &graph) {
     int V;
     int id;
@@ -36,6 +38,7 @@ void init_romania(std::istream &pin, AdjGraph &graph) {
 void AdjGraph::reverse_edge(EdgeKey &e) {
     std::swap(Edges[e].src, Edges[e].dst);
 }
+
 void AdjGraph::reverse_edge_all() {
     // re
     /*Adjlist adj_copy(Adjs);
@@ -46,6 +49,7 @@ void AdjGraph::reverse_edge_all() {
         }
     }*/
 }
+
 inline void AdjGraph::init_single_source(int sid) {
     for (auto &p : Nodes) {
         p.second.init_single_node();
@@ -58,6 +62,7 @@ inline void AdjGraph::init_single_source(int sid) {
 inline int AdjGraph::get_weight(int src, int dst) {
     return edge_map[std::make_pair(src, dst)].weight;
 }
+
 // relax edge(u, v) used for finding shortest path 
 inline void AdjGraph::relax_distance(int uid, int vid, int weight) {
     NodeType *v = get_node(vid);
@@ -67,6 +72,7 @@ inline void AdjGraph::relax_distance(int uid, int vid, int weight) {
         v->phi = u;
     }
 }
+
 bool comp_pair(std::pair<int*, int> &lhs, std::pair<int*, int> &rhs) {
     if (*lhs.first > *rhs.first) {
         return true;
@@ -74,10 +80,12 @@ bool comp_pair(std::pair<int*, int> &lhs, std::pair<int*, int> &rhs) {
         return false;
     }
 } 
+
 bool compare_by_dist(NodeType *lhs, NodeType *rhs) {
     if (lhs->dist > rhs->dist) return true;
     else return false;
 }
+
 inline void AdjGraph::relax_distance(int uid, int vid, int weight, FakeHeap &heap) {
     NodeType *v = get_node(vid);
     NodeType *u = get_node(uid);
@@ -87,6 +95,7 @@ inline void AdjGraph::relax_distance(int uid, int vid, int weight, FakeHeap &hea
         std::make_heap(heap.begin(), heap.end(), compare_by_dist);
     }
 }
+
 // Heap version, O(ElgV);
 void AdjGraph::dijkstra_clrs(int src) {
     init_single_source(src);
@@ -177,6 +186,7 @@ nForest AdjGraph::dfs_forest(int sid) {
     nForest forest;
     init_single_source(sid);
 }
+
 // it doesn't work if graph is dis-connected
 nodePath AdjGraph::dfs_stack(int sid, nVisitor visitor = nullptr) {
     //if(Adjs[sid].size() == 0) return nodePath();
@@ -230,6 +240,7 @@ nodePath AdjGraph::dfs_recursive(int sid, nVisitor *visitor = nullptr) {
     }   
     return path;
 }
+
 // also visit small id first 
 void AdjGraph::dfs_visit(NodeType *u, int &_time, nodePath &path) {
     _time++;
@@ -247,6 +258,7 @@ void AdjGraph::dfs_visit(NodeType *u, int &_time, nodePath &path) {
     u->finish_time = _time;
     path.push_front(u);
 }
+
 nodePath AdjGraph::tsort_kahn() {
     std::queue<NodeType *> q;
     std::vector<int> in_degs(Nodes.size());
@@ -281,9 +293,11 @@ nodePath AdjGraph::tsort_kahn() {
     }
     return kahn_order;
 }
+
 nodePath AdjGraph::topological_sort() {
     return dfs_recursive(1, nullptr);
 }
+
 nodePath AdjGraph::bfs(int sid, nVisitor visitor = nullptr) {
     init_all_nodes_property();
     NodeType *start_node = get_node(sid);
@@ -310,6 +324,7 @@ nodePath AdjGraph::bfs(int sid, nVisitor visitor = nullptr) {
     }
     return vo;
 }
+
 inline bool AdjGraph::is_already(int id) {
     if(Nodes.find(id) != Nodes.end()) return true;
     else return false;
@@ -321,15 +336,18 @@ NodeType* AdjGraph::insert_node(int id) {
     }
     return &Nodes[id];
 }
+
 NodeType* AdjGraph::insert_node(int id, std::string name) {
     if (!is_already(id)) {
         Nodes.insert(make_pair(id, NodeType(id, name)));
     }
     return &Nodes[id];
 }
+
 NodeType* AdjGraph::get_node(int id) {
     return &Nodes[id];
 }
+
 // when grpah input is given as pair of number
 EdgeType& AdjGraph::insert_edge(int src, int dst) {
     insert_node(src)->out_deg++;
@@ -348,18 +366,21 @@ EdgeType& AdjGraph::insert_edge(int src, int dst) {
     }
     return edge_map[end_point];
 }
+
 void AdjGraph::insert_edge(int src, int dst, int weight) {
     this->insert_edge(src, dst).weight = weight;
     if( !directed) {
         this->insert_edge(dst, src).weight = weight;
     }
 }
+
 void AdjGraph::delete_edge(EdgeKey &e) {
     get_node(EDGE_S(e))->out_deg--;
     get_node(EDGE_D(e))->in_deg--;
     Adjs[EDGE_S(e)].erase(EDGE_D(e));
     Edges.erase(e);
 }
+
 void AdjGraph::delete_node(int id) {
     Nodes.erase(id);
     Adjs.erase(id);
@@ -388,6 +409,7 @@ void AdjGraph::print_matrix(std::ostream &out) {
         out << "\n";
     } 
 }
+
 void gNode::print(std::ostream &pout) {
     pout << left << setw(4) << id 
          << setw(4) << in_deg
@@ -413,6 +435,7 @@ void gNode::print(std::ostream &pout) {
     }
     pout << setw(5) << finish_time << "\n";
 }
+
 void AdjGraph::print_nodes(std::ostream &pout) {
     pout << left << setw(4) << "id"
          << setw(4) << "in"
@@ -426,6 +449,7 @@ void AdjGraph::print_nodes(std::ostream &pout) {
         v.second.print(pout);
     }
 }
+
 void AdjGraph::print(std::ostream &pout) {
     pout << "AdjGraph Info : " << name << "\n";
     if(directed) pout << "Direct graph";
@@ -451,6 +475,7 @@ void AdjGraph::print_node_dist(std::ostream &out) {
         out << p.second.dist << ")\n";
     }
 }
+
 void AdjGraph::print_dfs(std::ostream &out) {
     const int format_width = 6;
     out << "\nDepth First Search\n";
@@ -466,6 +491,7 @@ void AdjGraph::print_dfs(std::ostream &out) {
             << p.second.finish_time << "\n"; 
     }
 }
+
 void AdjGraph::print_edges(std::ostream &out) {
     int cnt = 1;
     out << "Edge info : ";
@@ -477,6 +503,7 @@ void AdjGraph::print_edges(std::ostream &out) {
         out << "\n";
     }
 }
+
 void AdjGraph::mprint(std::ostream &pout) {
     for (size_t i = 0; i < adj_mat.size(); ++i) {
         for (size_t j = 0; j < adj_mat.size(); ++j) {
@@ -485,6 +512,7 @@ void AdjGraph::mprint(std::ostream &pout) {
         std::cout << std::endl;
     } 
 }
+
 AdjGraph::AdjGraph(Matrix mat) {
     const size_t sz = mat.size();
     adj_mat.resize(sz);
@@ -495,6 +523,7 @@ AdjGraph::AdjGraph(Matrix mat) {
         }
     }
 }
+
 // Fill 1 if path v to u is exist. If not, fill 0 instead.
 Matrix AdjGraph::check_all_path_to() {
     if (adj_mat.size() == 0) {

@@ -23,6 +23,7 @@ ostream& operator << (ostream &out, nodePath path) {
     out << "\n\n";
     return out;
 }
+
 int main(void) {
     AdjGraph graph1(false);
     std::ifstream pin(input_romania);
@@ -39,6 +40,7 @@ int main(void) {
     //dijkstra_test(pin);
     return 0;
 }
+
 void dfs_recur_test() {
     AdjGraph DfsRecursive(true);
     std::ifstream pin(input_dfs1);
@@ -49,6 +51,7 @@ void dfs_recur_test() {
 
     //DfsRecursive.print_dfs(cout);
 }
+
 void topo_test() {
     AdjGraph topoGraph(true);
     ifstream pin(input_topo2);
@@ -63,6 +66,7 @@ void topo_test() {
     //topoGraph.print_nodes(cout);
     //topoGraph.print_dfs(cout);
 }
+
 void dijkstra_test(istream &pin) {
     AdjGraph DijkstraGraph(false);
     DijkstraGraph.init_from_weighted_edge(pin);
@@ -72,6 +76,7 @@ void dijkstra_test(istream &pin) {
     DijkstraGraph.print_node_dist(cout);*/
     DijkstraGraph.print(cout);
 }
+
 void bellmanford_test(istream &pin) {
     AdjGraph BellmanFordGraph(true);
     string line("");
